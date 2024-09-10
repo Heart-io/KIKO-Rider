@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Honey Clicker Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+
+        #game {
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #honeyButton {
+            font-size: 3rem;
+            cursor: pointer;
+        }
+
+        #coinBar {
+            margin: 10px 0;
+            font-size: 1.5rem;
+        }
+
+        #shopButton {
+            font-size: 1.2rem;
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #ffcc00;
+            border: none;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        #shop {
+            display: none;
+            position: fixed;
+            top: 10%;
+            left: 50%;
+            transform: translate(-50%, 0);
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            max-width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+        }
+
+        #shop h2 {
+            margin-top: 0;
+        }
+
+        #upgradeList {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .upgrade {
+            margin: 10px 0;
+            background-color: #eee;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        #closeShopButton {
+            background-color: #ff6666;
+            border: none;
+            color: #fff;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="game">
+        <h1>Honey Clicker</h1>
+        <button id="honeyButton">🍯</button>
+        <div id="coinBar">
+            <span id="beeCoinIcon">🐝</span>
+            <span id="beeCoinCount">0</span>
+        </div>
+        <button id="shopButton">Open Shop</button>
+        <div id="shop">
+            <button id="closeShopButton">Close Shop</button>
+            <h2>Shop</h2>
+            <ul id="upgradeList"></ul>
+        </div>
+    </div>
+    <script>
+        let beeCoins = 0;
+        const honeyButton = document.getElementById('honeyButton');
+        const beeCoinCount = document.getElementById('beeCoinCount');
+        const shopButton = document.getElementById('shopButton');
+        const shop = document.getElementById('shop');
+        const closeShopButton = document.getElementById('closeShopButton');
+        const upgradeList = document.getElementById('upgradeList');
+
+        // Upgrades data
+        const upgrades = [
+            { name: 'Bee Colony', cost: 50, effect: () => { beeCoins += 5; updateBeeCoinCount(); } },
+            { name: 'Honeycomb', cost: 100, effect: () => { beeCoins += 10; updateBeeCoinCount(); } },
+            { name: 'Beekeeper', cost: 200, effect: () => { beeCoins += 20; updateBeeCoinCount(); } },
+            { name: 'Flower Field', cost: 500, effect: () => { beeCoins += 50; updateBeeCoinCount(); } },
+            { name: 'Hive Expansion', cost: 1000, effect: () => { beeCoins += 100; updateBeeCoinCount(); } },
+            { name: 'Royal Jelly', cost: 2000, effect: () => { beeCoins += 200; updateBeeCoinCount(); } },
+            { name: 'Honey Harvest', cost: 5000, effect: () => { beeCoins += 500; updateBeeCoinCount(); } },
+            { name: 'Golden Nectar', cost: 10000, effect: () => { beeCoins += 1000; updateBeeCoinCount(); } },
+            { name: 'Mega Hive', cost: 20000, effect: () => { beeCoins += 2000; updateBeeCoinCount(); } },
+            { name: 'Supreme Beekeeper', cost: 50000, effect: () => { beeCoins += 5000; updateBeeCoinCount(); } },
+        ];
+
+        // Update bee coin count
+        function updateBeeCoinCount() {
+            beeCoinCount.textContent = beeCoins;
+        }
+
+        // Honey button click event
+        honeyButton.addEventListener('click', () => {
+            beeCoins++;
+            updateBeeCoinCount();
+        });
+
+        // Populate shop with upgrades
+        upgrades.forEach((upgrade, index) => {
+            const upgradeItem = document.createElement('li');
+            upgradeItem.textContent = ` -  🐝`;
+            upgradeItem.classList.add('upgrade');
+            upgradeItem.addEventListener('click', () => {
+                if (beeCoins >= upgrade.cost) {
+                    beeCoins -= upgrade.cost;
+                    upgrade.effect();
+                } else {
+                    alert('Not enough bee coins!');
+                }
+            });
+            upgradeList.appendChild(upgradeItem);
+        });
+
+        // Toggle shop visibility
+        shopButton.addEventListener('click', () => {
+            shop.style.display = 'block';
+        });
+
+        closeShopButton.addEventListener('click', () => {
+            shop.style.display = 'none';
+        });
+
+        // Detect and handle auto-clicker program
+        function detectAutoClicker() {
+            // This is a placeholder; auto-clicker detection is complex and requires advanced methods.
+            // Example: Detecting excessive clicks
+            let clickCount = 0;
+            const clickThreshold = 10; // Adjust as needed
+            const clickInterval = setInterval(() => {
+                if (clickCount > clickThreshold) {
+                    alert('Auto-clicker detected!');
+                    // Handle auto-clicker detection (e.g., close the program)
+                }
+                clickCount = 0;
+            }, 1000);
+
+            honeyButton.addEventListener('click', () => {
+                clickCount++;
+            });
+        }
+
+        // Call detection function
+        detectAutoClicker();
+    </script>
+</body>
+</html>
+</html>
